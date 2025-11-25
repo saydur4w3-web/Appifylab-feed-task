@@ -1,0 +1,19 @@
+import { FC } from 'react';
+import { YouMightLike } from './youMightLike';
+import { FriendsList } from './friendsList';
+
+export const RightSidebar: React.FC = () => {
+  return (
+    <div className="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+      <div className="_layout_right_sidebar_wrap">
+        <div className="_layout_right_sidebar_inner">
+          <YouMightLike />
+        </div>
+
+        <div className="_layout_right_sidebar_inner">
+          <FriendsList />
+        </div>
+      </div>
+    </div>
+  );
+};

@@ -1,0 +1,160 @@
+// datasource + generator
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+model User {
+  id           String       @id @default(uuid()) @db.Uuid
+  first_name   String       @db.VarChar(50)
+  last_name   String        @db.VarChar(50)
+  email        String       @unique @db.VarChar(50)
+  // bio          String?
+  profile_img   String?
+  password     String
+  created_at   DateTime     @default(now()) @db.Timestamptz(6)
+  updated_at   DateTime     @default(now()) @db.Timestamptz(6)
+  refresh_token String?
+
+  // Relations
+  posts        Post[]
+  comments     Comment[]
+  postReactions    PostReaction[]
+  CommentReactions CommentReaction[]
+}
+
+
+model Post {
+  id         String     @id @default(uuid()) @db.Uuid
+  user_id    String     @db.Uuid
+  content    String
+  image_url  String? 
+  is_public  Boolean    @default(true)
+
+  react_count     Int       @default(0)
+  comment_count   Int       @default(0)
+  share_count     Int       @default(0)
+
+  created_at DateTime   @default(now()) @db.Timestamptz(6)
+  updated_at DateTime   @default(now()) @db.Timestamptz(6)
+
+  // Relations
+  user       User       @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  reactions      PostReaction[]
+  comments   Comment[]
+}
+
+model ReactionType {
+  id    Int     @id @db.SmallInt
+  name  String  @unique @db.VarChar(20)
+
+  postReactions    PostReaction[]
+  CommentReactions CommentReaction[]
+}
+
+model PostReaction {
+  user_id     String   @db.Uuid
+  post_id     String   @db.Uuid
+  reaction_id Int      @db.SmallInt
+  created_at  DateTime @default(now()) @db.Timestamptz(6)
+
+  user        User         @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  post        Post         @relation(fields: [post_id], references: [id], onDelete: Cascade)
+  reaction    ReactionType @relation(fields: [reaction_id], references: [id])
+
+  @@id([user_id, post_id])
+}
+
+model Comment {
+  id         String     @id @default(uuid()) @db.Uuid
+  user_id    String     @db.Uuid
+  post_id    String     @db.Uuid
+  content    String?
+  image_url  String? 
+  comment_id String?    @db.Uuid
+  created_at DateTime   @default(now()) @db.Timestamptz(6)
+  updated_at DateTime   @default(now()) @db.Timestamptz(6)
+
+  total_reply Int @default(0)
+
+  // reaction counts (aggregated)
+  like_count Int @default(0)
+  love_count Int @default(0)
+  haha_count Int @default(0)
+  wow_count  Int @default(0)
+  sad_count  Int @default(0)
+  angry_count Int @default(0)
+
+  // Relations
+  user      User      @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  post      Post      @relation(fields: [post_id], references: [id], onDelete: Cascade)
+
+  parent    Comment?   @relation("CommentReplies", fields: [comment_id], references: [id], onDelete: SetNull)
+  replies   Comment[]  @relation("CommentReplies")
+
+  reactions     CommentReaction[]
+}
+
+model CommentReaction {
+  user_id      String   @db.Uuid
+  comment_id   String   @db.Uuid
+  reaction_id  Int      @db.SmallInt
+  created_at   DateTime @default(now()) @db.Timestamptz(6)
+
+  user      User         @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  comment   Comment      @relation(fields: [comment_id], references: [id], onDelete: Cascade)
+  reaction  ReactionType @relation(fields: [reaction_id], references: [id])
+
+  @@id([user_id, comment_id])
+}
+
+enum NotificationType {
+  like
+  comment
+  follow
+  mention
+  repost
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

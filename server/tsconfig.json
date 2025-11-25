@@ -1,0 +1,39 @@
+{
+  "compilerOptions": {
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    
+    // --- STRICTUREST OPTIONS (Set to true or added) ---
+    "strict": true,
+    "strictNullChecks": true, 
+    "noImplicitAny": true,
+    "noImplicitReturns": true, // Added: Forces all code paths in a function to return a value if it's declared to return one.
+    "noUnusedLocals": false,     // Added: Reports errors on unused local variables.
+    "noUnusedParameters": false, // Added: Reports errors on unused parameters.
+    "strictBindCallApply": true, // Updated: Ensures correct use of bind, call, and apply. (Was false)
+    "strictPropertyInitialization": true, // Added: Ensures class properties are initialized.
+    "noFallthroughCasesInSwitch": true, // Updated: Enforces break statements in switch cases. (Was false)
+    "forceConsistentCasingInFileNames": true,
+
+    // --- NESTJS/MODULE OPTIONS ---
+    "target": "ES2023",
+    "resolveJsonModule": true, // Added: Allows importing .json files.
+    "resolvePackageJsonExports": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "isolatedModules": true, // Important for better performance with some bundlers
+
+    // --- DECORATOR/METADATA OPTIONS (Required by NestJS) ---
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+
+    // --- BUILD/OUTPUT OPTIONS ---
+    "declaration": true,
+    "removeComments": true,
+    "sourceMap": true,
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "incremental": true,
+    "skipLibCheck": true 
+  }
+}
