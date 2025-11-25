@@ -101,7 +101,7 @@ export const useGetReactions = ({
 };
 
 export function useCreateReactPost() {
-  const queryClient = useQueryClient();
+  // const queryClient = useQueryClient();
 
   const mutation = useMutation({
     mutationFn: async (dt: { postId: string; reactionId: number | null }) => {
@@ -112,7 +112,7 @@ export function useCreateReactPost() {
       });
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["post", "list"] });
+      // queryClient.invalidateQueries({ queryKey: ["post", "list"] });
     },
   });
 

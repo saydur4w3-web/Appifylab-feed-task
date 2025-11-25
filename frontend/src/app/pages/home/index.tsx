@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { CreatePost } from "../../../components/posts/create";
 import { PostList } from "../../../components/posts/list";
 import { LeftSidebar } from "../../../components/sidebar/leftSidebar";
@@ -5,6 +6,8 @@ import { RightSidebar } from "../../../components/sidebar/rightSidebar";
 import { Stories } from "../../../components/stories";
 
 export const HomePage = () => {
+
+  const [postCursor, setCPostCursor] = useState<string | null>(null);
 
   return (
     <div className="_layout_inner_wrap">
@@ -17,9 +20,9 @@ export const HomePage = () => {
 
               <Stories />
 
-              <CreatePost />
+              <CreatePost cursor={postCursor} />
 
-              <PostList />
+              <PostList cursor={postCursor} setCursor={setCPostCursor} />
 
             </div>
           </div>

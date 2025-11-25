@@ -17,13 +17,14 @@ import { useDeletePost } from "../../../../hooks/reactQuery/posts";
 
 interface IComp {
   post: ty_post_item;
+  cursor: string|null;
 }
 
-export const PostHeader: FC<IComp> = ({ post }) => {
+export const PostHeader: FC<IComp> = ({ post, cursor }) => {
   const { user, created_at, id: postId } = post;
   const { user: currentUser } = useAuthContext();
 
-  const delteMutation = useDeletePost();
+  const delteMutation = useDeletePost(cursor);
 
   const [isOpen, setIsOpen] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -115,7 +116,7 @@ export const PostHeader: FC<IComp> = ({ post }) => {
   >
     <div className="modal-dialog" onClick={(e) => e.stopPropagation()}>
       <div className="modal-content p-3">
-        <CreatePost post={editPost} onClose={() => setEditPost(null)} />
+        <CreatePost post={editPost} onClose={() => setEditPost(null)} cursor={cursor} />
       </div>
     </div>
   </div>

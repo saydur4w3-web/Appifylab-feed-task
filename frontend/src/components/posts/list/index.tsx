@@ -1,10 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, {
+  Dispatch,
+  FC,
+  SetStateAction,
+  useEffect,
+  useState,
+} from "react";
 import { usePostGetAll } from "../../../hooks/reactQuery/posts";
 import { PostSingle } from "../singleItem";
 import { ty_post_item } from "../../../types/post.type";
 
-export const PostList = () => {
-  const [cursor, setCursor] = useState<string | null>(null);
+interface IComp {
+  cursor: string | null;
+  setCursor: Dispatch<SetStateAction<string | null>>;
+}
+
+export const PostList: FC<IComp> = ({ cursor, setCursor }) => {
   // const [allPosts, setAllPosts] = useState<ty_post_item[]>([]);
 
   const { status, data, isFetching } = usePostGetAll(cursor);
@@ -42,7 +52,11 @@ export const PostList = () => {
       <div>
         {data.posts.map((el) => (
           <div key={el.id}>
-            <PostSingle postData={el} setModalData={setModalData} />
+            <PostSingle
+              postData={el}
+              setModalData={setModalData}
+              cursor={cursor}
+            />
           </div>
         ))}
       </div>
@@ -73,6 +87,7 @@ export const PostList = () => {
                 postData={modalData}
                 setModalData={setModalData}
                 isDetail={true}
+                cursor={cursor}
               />
             </div>
           </div>

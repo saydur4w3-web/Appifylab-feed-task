@@ -12,19 +12,20 @@ interface IComp {
   postData: ty_post_item;
   setModalData: React.Dispatch<React.SetStateAction<ty_post_item | null>>;
   isDetail?: boolean;
+  cursor: string|null;
 }
 
-export const PostSingle: FC<IComp> = ({ postData, setModalData, isDetail }) => {
+export const PostSingle: FC<IComp> = ({ postData, setModalData, isDetail, cursor }) => {
 
     const [_, reactInc] = React.useReducer((x) => x + 1, 0);
   
 
   return (
     <div className="_feed_inner_timeline_post_area _b_radious6 _padd_b24 _padd_t24 _mar_b16">
-      <PostHeader post={postData} />
+      <PostHeader post={postData} cursor={cursor} />
       <PostContent post={postData} />
       <Reactions post={postData} />
-      <Actions post={postData} />
+      <Actions post={postData} reactInc={reactInc} />
 
       {!isDetail && (
         <CommentInput

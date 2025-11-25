@@ -6,15 +6,32 @@ import { ReactionButton } from "../reaction/reactionButton";
 
 interface ActionsProps {
   post: ty_post_item;
+  reactInc: React.ActionDispatch<[]>;
 }
 
-export const Actions: React.FC<ActionsProps> = ({ post }) => {
+export const Actions: React.FC<ActionsProps> = ({ post, reactInc }) => {
   const { isReacted, reactedReactionId, id: postId } = post;
 
   const { mutate: reactToPost } = useCreateReactPost();
 
   const handleReact = (reactionId: number | null) => {
-    reactToPost({ postId, reactionId });
+    reactToPost(
+      { postId, reactionId },
+      {
+        onSuccess: () => {
+
+          if (reactionId) {
+            post.reactedReactionId = reactionId;
+            post.isReacted = true;
+          } else {
+            post.reactedReactionId = undefined;
+            post.isReacted = false;
+          }
+
+          reactInc();
+        },
+      }
+    );
   };
 
   return (

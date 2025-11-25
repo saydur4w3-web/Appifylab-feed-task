@@ -17,5 +17,5 @@ export const COLORS = ['neutral', 'primary', 'secondary', 'info', 'success', 'wa
 
 export const DEFAULT_IMG_USER = '/images/default_user.jpg';
 
-export const SERVER_URL = 'http://localhost:5000/v1';
-export const SERVER_STATIC_URL = 'http://localhost:5000';
+export const SERVER_URL = process.env.REACT_APP_SERVER_URL as string; // 'http://localhost:5000/v1'
+export const SERVER_STATIC_URL = process.env.REACT_APP_SERVER_STATIC_URL as string; // 'http://localhost:5000'

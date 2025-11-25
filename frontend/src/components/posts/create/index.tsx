@@ -7,9 +7,10 @@ import { ty_post_item } from "../../../types/post.type";
 interface IComp {
   post?: ty_post_item;
   onClose?: () => void;
+  cursor: string|null;
 }
 
-export const CreatePost: FC<IComp> = ({ post, onClose }) => {
+export const CreatePost: FC<IComp> = ({ post, onClose, cursor }) => {
   const isEdit = !!post;
 
   const [content, setContent] = useState(post?.content ?? "");
@@ -22,15 +23,19 @@ export const CreatePost: FC<IComp> = ({ post, onClose }) => {
       setFile(null);
       setIsPublic(true);
     },
-  });
+  },
+    cursor
+);
 
   const updateMutation = useUpdatePost({
     successHandler: () => {
-      setContent("");
-      setFile(null);
-      setIsPublic(true);
+      // setContent("");
+      // setFile(null);
+      // setIsPublic(true);
     },
-  });
+  },
+    cursor
+);
 
   // 🔥 Sync fields whenever a new post is passed in
   useEffect(() => {
@@ -40,6 +45,7 @@ export const CreatePost: FC<IComp> = ({ post, onClose }) => {
       setFile(null);
     }
   }, [post]);
+
 
   const handleSubmit = () => {
     if (isEdit) {
